@@ -4,7 +4,18 @@ void Target::Load_target_resources(void)
 {
 	if (!target_texture.loadFromFile("Resources/Sprites/target.png"))
 		exit(1);
+	if (!target_hit_buffer.loadFromFile("Resources/Sounds/bullet-impact-metal.wav"))
+		exit(1);
+	if (!time_start_buffer.loadFromFile("Resources/Sounds/time_start.wav"))
+		exit(1);
+	if (!time_up_buffer.loadFromFile("Resources/Sounds/time_end.wav"))
+		exit(1);
 	target_sprite.setTexture(target_texture);
+	target_hit.setBuffer(target_hit_buffer);
+	target_hit.setVolume(50.f);
+	time_start.setBuffer(time_start_buffer);
+	time_start.setVolume(20.f);
+	time_up.setBuffer(time_up_buffer);
 }
 
 void Target::Load_target_table(void)

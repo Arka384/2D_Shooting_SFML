@@ -19,12 +19,13 @@ int main()
 	target.spawn_target();
 
 	int Score = 0;
-	sf::Text score_text, timer_text[2];
-	sf::Font font;
-	font.loadFromFile("Resources/Fixedsys.ttf");
+	sf::Text score_text, timer_text[2], ui_text[2];
+	sf::Font font, ui_font;
+	font.loadFromFile("Resources/Fonts/Fixedsys.ttf");
+	ui_font.loadFromFile("Resources/Fonts/flappy.ttf");
 	score_text.setFont(font);
 	score_text.setCharacterSize(40);
-	score_text.setPosition(1366 - 60, 5);
+	score_text.setPosition(window.getSize().x - 60, 5);
 	for (int i = 0; i < 2; i++) {
 		timer_text[i].setFont(font);
 		timer_text[i].setCharacterSize(30 + i*10);
@@ -33,6 +34,15 @@ int main()
 	timer_text[0].setPosition(10, 5);
 	timer_text[1].setPosition(180, -2);
 
+	ui_text[0].setString("PRESS ENTER");
+	ui_text[1].setString("TIMES UP");
+	for (int i = 0; i < 2; i++) {
+		ui_text[i].setFont(ui_font);
+		ui_text[i].setCharacterSize(40);
+		ui_text[i].setPosition(window.getSize().x / 2 - ui_text[i].getGlobalBounds().width / 2, 8);
+	}
+
+
 	sf::Sprite range;
 	sf::Texture range_texture;
 	range_texture.loadFromFile("Resources/Sprites/sample_1.png");
@@ -40,7 +50,7 @@ int main()
 	range.setPosition(0, 60);
 
 	float game_time = 30, game_timer = game_time;
-	bool gameState = false;
+	int gameState = 0;
 
 	window.setMouseCursorVisible(false);
 	sf::Clock clk;
@@ -50,7 +60,7 @@ int main()
 	while (window.isOpen()) {
 		t = clk.restart();
 		dt = t.asSeconds();
-		if (gameState)
+		if (gameState == 1)
 			game_timer -= dt;
 
 		sf::Event evnt;
@@ -62,8 +72,17 @@ int main()
 			case sf::Event::KeyPressed:
 				if (evnt.key.code == sf::Keyboard::Escape)
 					window.close();
-				if (evnt.key.code == sf::Keyboard::Enter)
-					gameState = true;
+				if (evnt.key.code == sf::Keyboard::Enter) {
+					if (gameState == 0) {
+						gameState = 1;
+						target.time_start.play();
+					}	
+					else if (gameState == 2) {
+						gameState = 0;
+						Score = 0;
+						game_timer = game_time;
+					}
+				}
 				break;
 			case sf::Event::MouseButtonPressed:
 				uzi.firing = true;
@@ -83,22 +102,23 @@ int main()
 		score_text.setString(ss.str());
 		timer_text[1].setString(tm.str());
 
-		if (game_timer <= 0) {
-			gameState = false;
-			Score = 0;
-			game_timer = game_time;
+		if (game_timer <= 0 && gameState != 2) {
+			gameState = 2;
+			target.time_up.play();
 		}
 
 		mousePos = sf::Mouse::getPosition(window);
 		uzi.set_gun_position(mousePos);
 
 	
-		if (uzi.firing && gameState) {
+		if (uzi.firing && gameState == 1) {
 			if (uzi.fire_sound.getStatus() != sf::Sound::Status::Playing)
 				uzi.fire_sound.play();
 			uzi.fire_animation();
 			if (hit_target(mousePos, target)) {
 					timer -= dt;
+					if (target.target_hit.getStatus() != sf::Sound::Playing)
+						target.target_hit.play();
 				if (timer <= 0) {
 						Score++;
 						target.spawn_target();
@@ -115,8 +135,13 @@ int main()
 		window.clear();
 		window.draw(range);
 		window.draw(score_text);
-		for (int i = 0; i < 2; i++) window.draw(timer_text[i]);
-		if(gameState) window.draw(target.target_sprite);
+		for (int i = 0; i < 2; i++)
+			window.draw(timer_text[i]);
+		if(gameState == 0)
+			window.draw(ui_text[0]);
+		if(gameState == 2)
+			window.draw(ui_text[1]);
+		if(gameState == 1) window.draw(target.target_sprite);
 		window.draw(uzi.gun_sprite);
 		window.draw(uzi.crossair);
 		window.display();
