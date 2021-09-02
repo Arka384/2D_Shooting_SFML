@@ -1,8 +1,25 @@
-﻿  Target.cpp
+﻿  Gun.cpp
+c:\users\arkad\documents\deadshot files\c++ programs\sfml\tests\first_fps\first_fps\gun.cpp(21): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+c:\users\arkad\documents\deadshot files\c++ programs\sfml\tests\first_fps\first_fps\gun.cpp(23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\arkad\documents\deadshot files\c++ programs\sfml\tests\first_fps\first_fps\gun.cpp(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Target.cpp
 c:\users\arkad\documents\deadshot files\c++ programs\sfml\tests\first_fps\first_fps\target.cpp(47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+c:\users\arkad\documents\deadshot files\c++ programs\sfml\tests\first_fps\first_fps\main.cpp(11): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\arkad\documents\deadshot files\c++ programs\sfml\tests\first_fps\first_fps\main.cpp(28): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+c:\users\arkad\documents\deadshot files\c++ programs\sfml\tests\first_fps\first_fps\main.cpp(58): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\arkad\documents\deadshot files\c++ programs\sfml\tests\first_fps\first_fps\main.cpp(125): warning C4305: '=': truncation from 'double' to 'float'
   Generating code
-  1 of 267 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  4 of 267 functions ( 1.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   First_FPS.vcxproj -> C:\Users\arkad\Documents\DEADSHOT FILES\C++ Programs\SFML\TESTS\First_FPS\Release\First_FPS.exe
